@@ -1,11 +1,11 @@
 # encoding: utf-8
 
 Gem::Specification.new do |gem|
-  gem.name    = 'houston-vestal_versions'
+  gem.name    = 'mobi-vestal_versions'
   gem.version = '2.0.1'
 
-  gem.authors     = ['Steve Richert', "James O'Kelly", 'C. Jason Harrelson']
-  gem.email       = ['steve.richert@gmail.com', 'dreamr.okelly@gmail.com', 'jason@lookforwardenterprises.com']
+  gem.authors     = ['Aaron Huntsman', 'Steve Richert', "James O'Kelly", 'C. Jason Harrelson']
+  gem.email       = ['aaron.huntsman@tangoe.com', 'steve.richert@gmail.com', 'dreamr.okelly@gmail.com', 'jason@lookforwardenterprises.com']
   gem.description = "Keep a DRY history of your ActiveRecord models' changes"
   gem.summary     = gem.description
   gem.homepage    = 'http://github.com/laserlemon/vestal_versions'

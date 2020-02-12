@@ -4,6 +4,7 @@
 .config
 .rvmrc
 .yardoc
+vendor
 coverage
 doc/
 Gemfile.lock

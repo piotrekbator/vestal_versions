@@ -31,30 +31,32 @@ module VestalVersions
 		end
 
 		private
-			# Before a new version is created, the newly-changed attributes are appended onto a hash
-			# of previously-changed attributes. Typically the previous changes will be empty, except in
-			# the case that a control block is used where versions are to be merged. See
-			# VestalVersions::Control for more information.
-			def merge_version_changes
-				version_changes.append_changes!(incremental_version_changes)
-			end
 
-			# Stores the cumulative changes that are eventually used for version creation.
-			def version_changes
-				@version_changes ||= {}
-			end
+    # Before a new version is created, the newly-changed attributes are appended onto a hash
+    # of previously-changed attributes. Typically the previous changes will be empty, except in
+    # the case that a control block is used where versions are to be merged. See
+    # VestalVersions::Control for more information.
+    def merge_version_changes
+      version_changes.append_changes!(incremental_version_changes)
+    end
 
-			# Stores the incremental changes that are appended to the cumulative changes before version
-			# creation. Incremental changes are reset when the record is saved because they represent
-			# a subset of the dirty attribute changes, which are reset upon save.
-			def incremental_version_changes
-				changes.slice(*versioned_columns)
-			end
+    # Stores the cumulative changes that are eventually used for version creation.
+    def version_changes
+      @version_changes ||= {}
+    end
 
-			# Simply resets the cumulative changes after version creation.
-			def reset_version_changes
-				@version_changes = nil
-			end
+    # Stores the incremental changes that are appended to the cumulative changes before version
+    # creation. Incremental changes are reset when the record is saved because they represent
+    # a subset of the dirty attribute changes, which are reset upon save.
+    def incremental_version_changes
+      # Rails 5.0 -> 5.1
+      respond_to?(:saved_changes) ? saved_changes.slice(*versioned_columns) : changes.slice(*versioned_columns)
+    end
+
+    # Simply resets the cumulative changes after version creation.
+    def reset_version_changes
+      @version_changes = nil
+    end
 
     # Instance methods included into Hash for dealing with manipulation of hashes in the specific
     # format of ActiveRecord::Base#changes.
