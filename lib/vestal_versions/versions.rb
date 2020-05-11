@@ -31,13 +31,13 @@ module VestalVersions
       return [] if from_number.nil? || to_number.nil?
 
       condition = (from_number == to_number) ? to_number : Range.new(*[from_number, to_number].sort)
-      where(:number => condition).order("#{table_name}.#{connection.quote_column_name('number')} #{(from_number > to_number) ? 'DESC' : 'ASC'}").to_a
+      where(:number => condition).order(Arel.sql("#{table_name}.#{connection.quote_column_name('number')} #{(from_number > to_number) ? 'DESC' : 'ASC'}")).to_a
     end
 
     # Returns all version records created before the version associated with the given value.
     def before(value)
       return [] if (number = number_at(value)).nil?
-      where("#{table_name}.#{connection.quote_column_name('number')} < #{number}").to_a
+      where(Arel.sql("#{table_name}.#{connection.quote_column_name('number')} < #{number}")).to_a
     end
 
     # Returns all version records created after the version associated with the given value.
@@ -45,7 +45,7 @@ module VestalVersions
     # This is useful for dissociating records during use of the +reset_to!+ method.
     def after(value)
       return [] if (number = number_at(value)).nil?
-      where("#{table_name}.#{connection.quote_column_name('number')} > #{number}").to_a
+      where(Arel.sql("#{table_name}.#{connection.quote_column_name('number')} > #{number}")).to_a
     end
 
     # Returns a single version associated with the given value. The following formats are valid:
